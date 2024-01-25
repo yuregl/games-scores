@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { AuthServiceInterface } from './auth-service.service.interface';
+import { AppConfig } from '@src/config/app-config';
 
 @Injectable()
-export class AuthService {
+export class AuthService implements AuthServiceInterface {
     async hashPassword(password: string): Promise<string> {
-        const salt = 10;
+        const salt = AppConfig.get('salt');
 
         const hashedPassword = await bcrypt.hash(password, salt);
         return hashedPassword;
