@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { INestApplication } from '@nestjs/common';
 import getConfiguration, { Configuration } from './config/config';
+import { AppModule } from './app.module';
 
 class App {
     app: INestApplication;
@@ -10,6 +10,7 @@ class App {
 
     constructor() {
         this.defaultConfig = getConfiguration();
+        this.startSetup();
     }
 
     async startSetup() {
