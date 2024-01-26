@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AuthService } from '../../auth-service/auth-service.service';
-import { ResponseCreateUserDto, UserDto } from '../../dto/users/usersDto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from '../schemas/user.schema';
 import { UserServiceInterface } from './user.service.interface';
+import { RequestUserDto, ResponseUserDto } from '../usersDto/usersDto';
 
 @Injectable()
 export class UsersService implements UserServiceInterface {
@@ -12,7 +12,7 @@ export class UsersService implements UserServiceInterface {
         @InjectModel(User.name) private userModel: Model<User>,
         private authService: AuthService,
     ) {}
-    async create(data: UserDto): Promise<ResponseCreateUserDto> {
+    async create(data: RequestUserDto): Promise<ResponseUserDto> {
         const { email, name, password } = data;
 
         const userExist = await this.userModel.findOne<UserDocument>({ email }).exec();
@@ -31,7 +31,7 @@ export class UsersService implements UserServiceInterface {
 
         createdUser.save();
 
-        const response = <ResponseCreateUserDto>{
+        const response = <ResponseUserDto>{
             email: createdUser.email,
             id: createdUser.id,
             name: createdUser.name,

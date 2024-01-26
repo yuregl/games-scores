@@ -1,5 +1,5 @@
-import { ResponseCreateUserDto, UserDto } from '@src/dto/users/usersDto';
+import { RequestUserDto, ResponseUserDto } from '../usersDto/usersDto';
 
 export interface UserServiceInterface {
-    create(data: UserDto): Promise<ResponseCreateUserDto>;
+    create(data: RequestUserDto): Promise<ResponseUserDto>;
 }
