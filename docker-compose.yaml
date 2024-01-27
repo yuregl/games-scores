@@ -8,14 +8,14 @@ services:
     ports:
       - '27017:27017'
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - database
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - database
     
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./src:/usr/src/app/src
+  #   ports:
+  #     - '3000:3000'
+  #   volumes:
+  #     - ./src:/usr/src/app/src
