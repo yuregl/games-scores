@@ -11,8 +11,8 @@ import { CryptoService } from '../crypto/services/crypto.service';
     imports: [
         JwtModule.register({
             global: true,
-            secret: 'senha',
-            signOptions: { expiresIn: '1h' },
+            secret: process.env.SECRET,
+            signOptions: { expiresIn: process.env.EXPIRES },
         }),
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     ],
