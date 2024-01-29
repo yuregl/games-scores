@@ -4,6 +4,7 @@ import { AuthServiceInterface } from './auth-service.service.interface';
 import { UsersService } from '../../users/services/users.service';
 import { TokenDto } from '../authDto/tokenDto';
 import { CryptoService } from '../../crypto/services/crypto.service';
+import { ResponseUserWithPasswordDto } from '@src/users/usersDto/usersDto';
 
 @Injectable()
 export class AuthService implements AuthServiceInterface {
@@ -29,5 +30,15 @@ export class AuthService implements AuthServiceInterface {
         return {
             accessToken: await this.jwtService.signAsync(payload),
         } as TokenDto;
+    }
+
+    async validateUser(email: string, password: string): Promise<ResponseUserWithPasswordDto | null> {
+        const user = await this.userService.getUserByEmail(email);
+
+        if (!user || !this.cryptoService.comparePassword(password, user.password)) {
+            return null;
+        }
+
+        return user;
     }
 }
