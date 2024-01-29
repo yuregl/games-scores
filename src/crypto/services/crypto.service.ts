@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common';
 import { CryptoServiceInterface } from './crypto.service.interface';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 
+@Injectable()
 export class CryptoService implements CryptoServiceInterface {
     constructor(private configService: ConfigService) {}
 

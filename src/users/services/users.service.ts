@@ -21,12 +21,12 @@ export class UsersService implements UserServiceInterface {
             throw new NotFoundException('Usuário já criado com esse email!');
         }
 
-        data.password = await this.cryptoService.hashPassword(data.password);
+        const hashedPassword = await this.cryptoService.hashPassword(password);
 
         const createdUser = await this.userModel.create<UserDocument>({
             email,
             name,
-            password,
+            password: hashedPassword,
         });
 
         createdUser.save();
