@@ -8,7 +8,7 @@ import { AuthService } from '../services/auth-service.service';
 export class AuthController implements AuthControllerInterface {
     constructor(private authService: AuthService) {}
 
-    @Post()
+    @Post('login')
     async singIn(@Body() data: RequestSingInDto): Promise<TokenDto> {
         const { email, password } = data;
         return await this.authService.singIn(email, password);

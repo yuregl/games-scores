@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import getConfiguration, { Configuration } from './config/config';
 import { AppModule } from './app.module';
 
@@ -24,6 +24,7 @@ class App {
 
     async bootStrap() {
         this.app = await NestFactory.create(AppModule);
+        this.app.useGlobalPipes(new ValidationPipe());
         this.app.setGlobalPrefix(this.defaultConfig.app.prefix);
     }
 
