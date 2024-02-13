@@ -3,7 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from '../schemas/user.schema';
 import { UserServiceInterface } from './user.service.interface';
-import { RequestUserDto, ResponseUserDto, ResponseUserWithPasswordDto } from '../usersDto/usersDto';
+import {
+    RequestPasswordUpdateDto,
+    RequestUserDto,
+    ResponseUserDto,
+    ResponseUserWithPasswordDto,
+} from '../usersDto/usersDto';
 import { CryptoService } from '../../crypto/services/crypto.service';
 
 @Injectable()
@@ -52,5 +57,19 @@ export class UsersService implements UserServiceInterface {
             name: userExist.name,
             password: userExist.password,
         } as ResponseUserWithPasswordDto;
+    }
+
+    async userUpdatePassword(req: RequestPasswordUpdateDto): Promise<void> {
+        const userExist = await this.userModel.findOne<UserDocument>({ email: req.email }).exec();
+
+        if (!userExist) {
+            throw new NotFoundException('Usuário não encontrado');
+        }
+
+        const hashedPassword = await this.cryptoService.hashPassword(req.password);
+
+        userExist.password = hashedPassword;
+
+        await userExist.save();
     }
 }
